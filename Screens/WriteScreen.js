@@ -1,31 +1,55 @@
 import React from 'react'
 import {Text,View,StyleSheet,TextInput,TouchableOpacity} from 'react-native'
+import firebase from 'firebase'
+import db from '../config'
 
 export default class WriteScreen extends React.Component{
     constructor(){
         super();
         this.state={
-displayText:''
-
+story:'',
+author:'',
+title:''
         }
     }
+    submitStory=async()=>{
+      db.collection("Stories").add({
+        'Author' : this.state.author,
+        'Title' : this.state.title,
+        'date' : firebase.firestore.Timestamp.now().toDate(),
+        'Story' : this.state.story
+      })
+      this.setState({
+        story:'',
+author:'',
+title:''
+      })
+    }
     render() {
-        return (
+       return(
           <View style={styles.container}>
+            <View>
+              <TextInput onChangeText={(text)=>{this.setState({
+                author:text
+              })}}value={this.state.author} style={styles.inputbox}placeholder='Enter Authors Name'/>
+               <TextInput onChangeText={(text)=>{this.setState({
+                title:text
+              })}}value={this.state.title} style={styles.inputbox}placeholder='Name of the book'/>
           <TextInput onChangeText={(text)=>{this.setState({
-            text:text
-          })}} value={this.state.text} style={styles.inputbox}multiline numberOfLines={100000000000000}/>
-          <TouchableOpacity style={styles.goButton}onPress={()=>{
-            this.setState({
-              displayText:this.state.text
-            })
-          }}><Text style={styles.buttontext}>Go</Text></TouchableOpacity>
-          <Text style={styles.displayText}>{this.state.displayText}</Text>
+            story:text
+          })}} value={this.state.story} style={styles.inputbox}multiline numberOfLines={100000000000000}placeholder='Write a story here'/>
+</View>
+          <TouchableOpacity style={styles.goButton}onPress={async()=>{
+            var userStory = await this.submitStory()
+          }}><Text style={styles.buttontext}>Submit</Text>
+          </TouchableOpacity>
           </View>
          
         );
+          }
       }
-    }
+     
+    
     const styles = StyleSheet.create({
         inputbox: {
           marginTop: 100,
@@ -56,6 +80,22 @@ displayText:''
           backgroundColor: '#fff',
           alignItems: 'center',
           justifyContent: 'center',
+        },
+        inputbox:{
+          marginTop: -100,
+          width: 300,
+          alignSelf: 'center',
+          height: 40,
+          textAlign: 'center',
+          borderWidth: 4,
+        },
+        inputbox:{
+          marginTop: 300,
+          width: 300,
+          alignSelf: 'center',
+          height: 40,
+          textAlign: 'center',
+          borderWidth: 4,
         }
         });
-       
+     
