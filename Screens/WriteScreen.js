@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,View,StyleSheet,TextInput,TouchableOpacity} from 'react-native'
+import {Text,View,StyleSheet,TextInput,TouchableOpacity,KeyboardAvoidingView, Alert} from 'react-native'
 import firebase from 'firebase'
 import db from '../config'
 
@@ -24,10 +24,11 @@ title:''
 author:'',
 title:''
       })
+      Alert.alert("You'r Story Has Been Submited")
     }
     render() {
        return(
-          <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <View>
               <TextInput onChangeText={(text)=>{this.setState({
                 author:text
@@ -43,7 +44,7 @@ title:''
             var userStory = await this.submitStory()
           }}><Text style={styles.buttontext}>Submit</Text>
           </TouchableOpacity>
-          </View>
+          </KeyboardAvoidingView>
          
         );
           }
@@ -89,13 +90,5 @@ title:''
           textAlign: 'center',
           borderWidth: 4,
         },
-        inputbox:{
-          marginTop: 300,
-          width: 300,
-          alignSelf: 'center',
-          height: 40,
-          textAlign: 'center',
-          borderWidth: 4,
-        }
         });
      
