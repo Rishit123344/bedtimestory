@@ -12,8 +12,8 @@ lastReadStory:null
     }
 }
 searchStories=async(text)=>{
-    var text = text.toUpperCase()
     var enteredText = text.split("")
+    var text = text.toUpperCase()
     if(enteredText[0].toUpperCase()==='B'){
         const Stories = await db.collection("Stories").where("Author",'==',text).get()
         Stories.docs.map((doc)=>{
@@ -25,7 +25,7 @@ searchStories=async(text)=>{
     }
         if(enteredText[0].toUpperCase()==='S'){
             const Stories = await db.collection("Stories").where("Title",'==',text).get()
-            stories.docs.map((doc)=>{
+            Stories.docs.map((doc)=>{
                 this.setState({
                     allstories:[...this.state.allstories,doc.data()],
                     lastReadStory:doc
@@ -69,8 +69,8 @@ searchStories=async(text)=>{
                     return(
                     <View style={styles.container}>
                     <View style={styles.searchbar}>
-                        <TextInput style={styles.bar}placeholder="Author"onChangeText={(text)=>{this.setState({
-                            search:story
+                        <TextInput style={styles.bar}placeholder="Author's Name"onChangeText={(text)=>{this.setState({
+                            search:text
                                     })}}></TextInput>
                         <TouchableOpacity style={styles.searchbutton}onPress={()=>{
                             this.searchStories(this.state.search)

@@ -16,7 +16,7 @@ title:''
       db.collection("Stories").add({
         'Author' : this.state.author,
         'Title' : this.state.title,
-        'date' : firebase.firestore.Timestamp.now().toDate(),
+        'Date' : firebase.firestore.Timestamp.now().toDate(),
         'Story' : this.state.story
       })
       this.setState({
